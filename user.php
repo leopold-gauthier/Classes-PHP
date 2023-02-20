@@ -85,6 +85,7 @@ class User
     {
         $Requete = $this->bd->query("SELECT * FROM utilisateurs WHERE login = '" . $_SESSION['login'] . "'");
         $Requete = $Requete->fetch_all(MYSQLI_ASSOC);
+        var_dump($Requete);
         return $Requete;
     }
 }
@@ -103,8 +104,7 @@ $User->connect('test3', "test3");
 // $User->delete();
 // $User->update('test3', 'test3', 'test3', 'test3', 'test3');
 $User->isConnected();
-
-
+$User->getAllInfos();
 ?>
 
-<div><?php var_dump($User->getAllInfos()) ?></div>
+<div><?php  ?></div>
