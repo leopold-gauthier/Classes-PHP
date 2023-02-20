@@ -10,7 +10,7 @@ class User
     public $email;
     public $firstname;
     public $lastname;
-    public $bd;
+    protected $bd;
 
 
     public function __construct()
@@ -28,7 +28,7 @@ class User
             die("Connexion lost");
             $message = "Connexion non trouvées";
         } else {
-            $message = "Connexion établie";
+            $message = "Connexion établie a la bdd";
         }
         echo "<p>$message</p>";
     }
@@ -44,15 +44,12 @@ class User
     public function connect($login, $password)
     {
         $Requete = $this->bd->query("SELECT * FROM utilisateurs WHERE login = '" . $login . "' AND password = '" . $password . "'");
-        $result = $Requete->fetch_all(MYSQLI_ASSOC);
         if (mysqli_num_rows($Requete) == 0) {
             $message = "Le login ou le mot de passe est incorrect, le compte n'a pas été trouvé";
         } else {
-            $message = "Vous êtes à présent connecté !";
             $_SESSION['login'] = $login;
             $_SESSION['password'] = $password;
         }
-        echo "<p>$message</p>";
     }
     // disconnect
     public function disconnect()
@@ -66,13 +63,48 @@ class User
         session_destroy();
         echo "utilisateur supprimé";
     }
+    // update
+    public function update($login, $password, $email, $firstname, $lastname)
+    {
+        $Requete = $this->bd->query("UPDATE utilisateurs SET login = '$login', password='$password', email='$email' , firstname='$firstname' ,lastname='$lastname' WHERE login='" . $_SESSION["login"] . "'");
+        echo "utilisateur a été modifé";
+    }
+    // isConnected ?
+    public function isConnected()
+    {
+        if (isset($_SESSION['login'])) {
+            echo "Vous étes connecté";
+            return true;
+        } else {
+            echo "Vous étes pas connecté";
+            return false;
+        }
+    }
+    // getAllInfos
+    public function getAllInfos()
+    {
+        $Requete = $this->bd->query("SELECT * FROM utilisateurs WHERE login = '" . $_SESSION['login'] . "'");
+        $Requete = $Requete->fetch_all(MYSQLI_ASSOC);
+        return $Requete;
+    }
 }
 
 
 
-$User = new User();
-$User->register('test', "test", "test", "test", "test");
-// $User->connect('test', "test");
-// $User->delete();
 
-// 
+
+var_dump($_SESSION);
+
+
+$User = new User();
+// $User->register('test', "test", "test", "test", "test");
+$User->connect('test3', "test3");
+// $User->disconnect();
+// $User->delete();
+// $User->update('test3', 'test3', 'test3', 'test3', 'test3');
+$User->isConnected();
+
+
+?>
+
+<div><?php var_dump($User->getAllInfos()) ?></div>
