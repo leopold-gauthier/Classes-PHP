@@ -88,23 +88,55 @@ class User
         var_dump($Requete);
         return $Requete;
     }
+    // getLogin
+    public function getLogin()
+    {
+        $Requete = $this->bd->query("SELECT login FROM utilisateurs WHERE login = '" . $_SESSION['login'] . "'");
+        $Requete = $Requete->fetch_all(MYSQLI_ASSOC);
+        var_dump($Requete);
+        return $Requete;
+    }
+    // getEmail
+    public function getEmail()
+    {
+        $Requete = $this->bd->query("SELECT email FROM utilisateurs WHERE login = '" . $_SESSION['login'] . "'");
+        $Requete = $Requete->fetch_all(MYSQLI_ASSOC);
+        var_dump($Requete);
+        return $Requete;
+    }
+    // getFirstname
+    public function getFirstname()
+    {
+        $Requete = $this->bd->query("SELECT firstname FROM utilisateurs WHERE login = '" . $_SESSION['login'] . "'");
+        $Requete = $Requete->fetch_all(MYSQLI_ASSOC);
+        var_dump($Requete);
+        return $Requete;
+    }
+    // getFirstname
+    public function getLastname()
+    {
+        $Requete = $this->bd->query("SELECT lastname FROM utilisateurs WHERE login = '" . $_SESSION['login'] . "'");
+        $Requete = $Requete->fetch_all(MYSQLI_ASSOC);
+        var_dump($Requete);
+        return $Requete;
+    }
 }
-
-
-
-
-
 var_dump($_SESSION);
-
-
 $User = new User();
 // $User->register('test', "test", "test", "test", "test");
-$User->connect('test3', "test3");
+// $User->connect('test3', "test3");
 // $User->disconnect();
 // $User->delete();
 // $User->update('test3', 'test3', 'test3', 'test3', 'test3');
-$User->isConnected();
-$User->getAllInfos();
+// $User->isConnected();
+// $User->getAllInfos();
+// $User->getLogin();
+// $User->getEmail();
+// $User->getFirstname();
+// $User->getLastname();
+
+
+
 ?>
 
 <div><?php  ?></div>
